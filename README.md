@@ -82,7 +82,7 @@ The main function in the project demonstrates the complete flow:
 4. Verify the token with the public key
 5. Demonstrate token expiration
 
-```
+```mermaid
 sequenceDiagram
 participant Main as Main Function
 participant Key as Key Manager
