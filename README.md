@@ -82,12 +82,13 @@ The main function in the project demonstrates the complete flow:
 4. Verify the token with the public key
 5. Demonstrate token expiration
 
-```mermaid
+```
 sequenceDiagram
-    participant Main as Main Function
-    participant Key as Key Manager
-    participant JWT as JWT Service
-    participant FS as File System
+participant Main as Main Function
+participant Key as Key Manager
+participant JWT as JWT Service
+participant FS as File System
+participant Blockus as Blockus API
 
     Main->>Key: Check if keys exist
 
@@ -104,19 +105,16 @@ sequenceDiagram
 
     Main->>Main: Create payload object
     Main->>JWT: signJWT(payload, privateKey)
-    JWT-->>Main: Return signed token
+    JWT-->>Main: Return signed token (didToken)
 
-    Main->>JWT: verifyJWT(token, publicKey)
+    Main->>JWT: verifyJWT(didToken, publicKey)
     JWT-->>Main: Return decoded payload
 
-    Main->>JWT: signJWT(payload, privateKey, 5) // Short expiration
-    JWT-->>Main: Return short-lived token
+    Main->>Main: Create Blockus API client
+    Main->>Blockus: loginPlayer(didToken)
+    Blockus-->>Main: Return blockusAccessToken (BAT)
 
-    Note over Main: Wait 6 seconds
-
-    Main->>JWT: verifyJWT(shortLivedToken, publicKey)
-    JWT--xMain: Throw TokenExpiredError
-    Main->>Main: Catch and handle error
+    Main->>Main: Generate redirect URL with BAT
 ```
 
 ## API Reference
