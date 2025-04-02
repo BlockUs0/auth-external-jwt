@@ -1,4 +1,4 @@
-# JWT Generator for TypeScript
+# Blockus API Secure Login
 
 A secure and type-safe JWT (JSON Web Token) implementation using TypeScript and RSA cryptography.
 
