@@ -10,6 +10,7 @@ const envSchema = z.object({
   BLOCKUS_API_KEY: z.string().min(1, "BLOCKUS_API_KEY is required."),
   BLOCKUS_API_PROJECT: z.string().min(1, "BLOCKUS_API_PROJECT is required."),
   BLOCKUS_REDIRECT_URL: z.string().min(1, "BLOCKUS_REDIRECT_URL is required."),
+  BLOCKUS_ISS: z.string().min(1, "BLOCKUS_ISS is required."),
 });
 
 // Parse and validate environment variables

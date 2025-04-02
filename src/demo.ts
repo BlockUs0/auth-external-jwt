@@ -32,8 +32,8 @@ async function runDemo() {
 
   // Create a payload
   const payload: TokenPayload = {
-    sub: "0x01", // TRALA LAB PLATFORM USER ID
-    iss: "trala-lab-signer",
+    sub: "0x01", // GAME DB USER ID
+    iss: env.BLOCKUS_ISS,
   };
 
   // Sign the token

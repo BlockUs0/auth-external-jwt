@@ -22,17 +22,37 @@ This project requires the following packages on your global machine:
 npm install -g pnpm
 ```
 
-## Installation
+## Setup Environment
 
-Clone the repository and install the dependencies:
+Before starting the example, you need to create a `.env` file in the root folder. `.env.template` have a list of the required variables. Please modify the values accordingly to your account secrets from Developer's Portal.
 
-```bash
-git clone git@github.com:BlockUs0/auth-external-jwt.git
-cd jwt-generator-ts
+<div style="max-width: 350px; margin: 0 auto;">
+  <img src="assets/env.png" style="display: block; margin: 0 auto; width: 100%;">
+</div>
+
+## Import existing keypair
+
+The demo program will create a new keypair if the directory `keys` is empty.
+
+If you have an existing keypair please import into the root directory.
+
+1. Create a `keys` folder.
+2. Create a `private.pem` file and paste the private key.
+3. Create a `public.pem` file and paste public key.
+
+<div style="max-width: 350px; margin: 0 auto;">
+  <img src="assets/keys.png" style="display: block; margin: 0 auto; width: 100%;">
+</div>
+
+## Install dependencies
+
+```
 pnpm install
 ```
 
 ## Usage
+
+The code inside `src/demo.ts` is intended to be implemented in your backend.
 
 ```
 pnpm demo
@@ -46,30 +66,18 @@ Inside the file you can study the usage of the API.
 3. Use Blockus SDK to login user and get the Blockus Access Token
 4. Generate the redirect URL to link the wallet to the user
 
-### Basic Example
+### Adding a custom User Id
 
-```typescript
-import { generateKeyPair, signJWT, verifyJWT } from "./jwt";
+If you want to keep track of the user activities we recommend to register your players using your database user id so all the data and queries are tied to the same user and that improves observality and tracking.
 
-// Generate keys (or load existing ones)
-const { privateKey, publicKey } = generateKeyPair();
+The payload to sign will have all the required information. The value `sub` is the one you need to update in order to create a user with your database existing id.
 
+```javascript
 // Create a payload
-const payload = {
-  userId: "user123",
-  role: "admin",
+const payload: TokenPayload = {
+  sub: "0x01", // GAME DB USER ID
+  iss: "iss", // ISSUER,
 };
-
-// Sign a token
-const token = signJWT(payload, privateKey);
-
-// Verify a token
-try {
-  const decoded = verifyJWT(token, publicKey);
-  console.log("Decoded payload:", decoded);
-} catch (error) {
-  console.error("Verification failed:", error);
-}
 ```
 
 ### Complete Flow
@@ -116,47 +124,6 @@ participant Blockus as Blockus API
 
     Main->>Main: Generate redirect URL with BAT
 ```
-
-## API Reference
-
-### `generateKeyPair()`
-
-Generates a new RSA key pair for JWT signing.
-
-Returns: `{ privateKey: string, publicKey: string }`
-
-### `saveKeys(privateKey: string, publicKey: string)`
-
-Saves the key pair to files (`private.pem` and `public.pem`).
-
-### `readKeys()`
-
-Reads the key pair from files.
-
-Returns: `{ privateKey: string, publicKey: string }`
-
-### `signJWT(payload: TokenPayload, privateKey: string, expiresIn: number = 3600)`
-
-Signs a JWT with the provided payload and private key.
-
-Parameters:
-
-- `payload`: The data to include in the token
-- `privateKey`: The private key to sign with
-- `expiresIn`: Token expiration time in seconds (default: 1 hour)
-
-Returns: JWT string
-
-### `verifyJWT(token: string, publicKey: string)`
-
-Verifies a JWT using the public key.
-
-Parameters:
-
-- `token`: The JWT to verify
-- `publicKey`: The public key to verify with
-
-Returns: Decoded payload if valid, throws an error if invalid
 
 ## Security Considerations
 
