@@ -34,6 +34,18 @@ pnpm install
 
 ## Usage
 
+```
+pnpm demo
+```
+
+Demo command will run the function inside `src/demo.ts`
+Inside the file you can study the usage of the API.
+
+1. Generate a keypair for signing a jwt
+2. Generate a jwt signed by your keypair with the required payload (iss, aud, sub)
+3. Use Blockus SDK to login user and get the Blockus Access Token
+4. Generate the redirect URL to link the wallet to the user
+
 ### Basic Example
 
 ```typescript

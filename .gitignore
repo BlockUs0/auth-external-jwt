@@ -10,6 +10,7 @@ lerna-debug.log*
 # RSA Keys
 private.pem
 public.pem
+keys
 
 # For additional security, ignore all .pem files
 *.pem
